@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .indicator-circle {
+    @apply absolute left-0 right-0 m-auto w-[7px] h-[7px] bg-red-500 rounded-full;
+  }
+}
