@@ -36,11 +36,11 @@ export default function Header() {
       variants={headerVariants}
       initial="top"
       animate={headerAnimation}
-      className="  text-white sm:px-3 md:px-10 flex items-center justify-between fixed w-full bg-opacity-1"
+      className="fixed z-50 flex items-center justify-between w-full text-white sm:px-3 md:px-10 bg-opacity-1"
     >
       <div className="flex items-center sm:gap-x-2 md:gap-x-5">
         <Logo />
-        <Link className="relative" to={""}>
+        <Link className="relative sm:text-sm md:text-base" to={""}>
           Home
           {homeMatch && (
             <motion.div
@@ -49,7 +49,7 @@ export default function Header() {
             ></motion.div>
           )}
         </Link>
-        <Link className="relative" to={"tv"}>
+        <Link className="relative sm:text-sm md:text-base" to={"tv"}>
           Tv Shows
           {tvMatch && (
             <motion.div
@@ -60,16 +60,16 @@ export default function Header() {
         </Link>
       </div>
 
-      <div className="sm:hidden md:flex flex-row items-center gap-x-2">
+      <div className="flex-row items-center sm:hidden md:flex gap-x-2">
         <motion.input
           animate={{ scaleX: searchOpen ? 1 : 0 }}
-          className=" px-2 origin-top-right text-black"
+          className="px-2 text-black origin-top-right bg-white "
           type="text"
           placeholder="검색"
         />
         <CiSearch
           tabIndex={0}
-          className="text-2xl cursor-pointer"
+          className="text-2xl outline-none cursor-pointer"
           onClick={() => setsearchOpen((prev) => !prev)}
         />
       </div>
@@ -78,12 +78,12 @@ export default function Header() {
         <CiSearch tabIndex={0} className="text-2xl" />
         <div
           tabIndex={0}
-          className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 mt-7"
+          className="dropdown-content z-[1] menu p-2 shadow  rounded-box w-52 mt-3"
         >
           <input
             type="text"
             placeholder="검색"
-            className="px-2 text-black outline-none"
+            className="px-2 text-black bg-white outline-none"
           />
         </div>
       </div>
