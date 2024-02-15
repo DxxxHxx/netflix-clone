@@ -11,13 +11,11 @@ export default function Home() {
       queryFn: getNowPlayingMovies,
     }
   );
-
   const { data: topRated, isLoading: topRatedLoading } = useQuery<IMovie[]>({
     queryKey: ["movies", "topRated"],
     queryFn: getTopRatedMovies,
   });
 
-  // console.log(topRated);
   const isLoading = nowPlayingLoading || topRatedLoading;
   if (isLoading) return <Loader />;
   return (

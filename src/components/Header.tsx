@@ -20,6 +20,7 @@ const headerVariants = {
 export default function Header() {
   const [searchOpen, setsearchOpen] = useState(false);
   const homeMatch = useMatch("");
+  const movieInfoMatch = useMatch("movies/:id");
   const tvMatch = useMatch("tv");
   //   console.log(homeMatch, tvMatch);
   const headerAnimation = useAnimation();
@@ -42,12 +43,12 @@ export default function Header() {
         <Logo />
         <Link className="relative sm:text-sm md:text-base" to={""}>
           Home
-          {homeMatch && (
+          {homeMatch || movieInfoMatch ? (
             <motion.div
               layoutId="circle"
               className="indicator-circle"
             ></motion.div>
-          )}
+          ) : null}
         </Link>
         <Link className="relative sm:text-sm md:text-base" to={"tv"}>
           Tv Shows
