@@ -24,6 +24,10 @@ export const router = createBrowserRouter([
         element: <Tv />,
       },
       {
+        path: "tvs/:id",
+        element: <Tv />,
+      },
+      {
         path: "search",
         element: <Search />,
       },

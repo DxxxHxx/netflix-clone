@@ -43,7 +43,23 @@ export interface Genre {
   name: string;
 }
 
-export const getNowPlayingMovies = async () => {
+export interface ITv {
+  adult: boolean;
+  backdrop_path: string;
+  genre_ids: number[];
+  id: number;
+  origin_country: string[];
+  original_language: string;
+  original_name: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  first_air_date: string;
+  name: string;
+  vote_average: number;
+  vote_count: number;
+}
+export const getNowPlayingMovies = () => {
   const options = {
     method: "GET",
     headers: {
@@ -53,16 +69,13 @@ export const getNowPlayingMovies = async () => {
     },
   };
 
-  try {
-    const res = await fetch(
-      `https://api.themoviedb.org/3/movie/now_playing?language=ko&page=1`,
-      options
-    );
-    const json = await res.json();
-    return json.results;
-  } catch (e) {
-    return console.error(e);
-  }
+  return fetch(
+    "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1",
+    options
+  )
+    .then((response) => response.json())
+    .then((response) => response.results)
+    .catch((err) => console.error(err));
 };
 
 export const getTopRatedMovies = async () => {
@@ -109,6 +122,24 @@ export const getMovieInfo = async (id: number) => {
   }
 };
 
+export const getAiringTv = () => {
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2MjNhMWZjNzhjNDgwOTZhNTlkOGFhYTlmZjJkODBkMCIsInN1YiI6IjY0YmY0NWY2OGVlNDljMDBmZTBlZjMzZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.jdJgHYf243OSqlg1bGDmXQbFE8nVEHcTqzhV-R_tqxs",
+    },
+  };
+
+  return fetch(
+    "https://api.themoviedb.org/3/tv/airing_today?language=ko-KR&page=1",
+    options
+  )
+    .then((response) => response.json())
+    .then((response) => response.results)
+    .catch((err) => console.error(err));
+};
 export const getImg = (path: string, format?: string) => {
   return `https://image.tmdb.org/t/p/${format ? format : "original"}${path}`;
 };

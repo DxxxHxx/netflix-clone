@@ -2,7 +2,7 @@ import Slider, { Settings } from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useRef } from "react";
-import { IMovie, IMovieInfo, getImg, getMovieInfo } from "../api";
+import { IMovie, IMovieInfo, ITv, getImg, getMovieInfo } from "../api";
 import { FaArrowRight } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa";
 import { AnimatePresence, motion } from "framer-motion";
@@ -29,13 +29,15 @@ export default function Carousel({
   title,
 }: {
   title: string;
-  data: IMovie[];
+  data: IMovie[]|ITv[];
 }) {
   const silderRef = useRef<Slider>(null);
   const navigate = useNavigate();
-
+  const movieDetailMatch = useMatch("/movies/:id");
+  console.log(`movieDetailMatch : ${movieDetailMatch?.params.id}`);
   const handleItemClick = (id: number) => {
     navigate(`/movies/${id}`);
+    console.log(`id : ${id}`)
   };
   const settings: Settings = {
     infinite: true,
@@ -60,7 +62,7 @@ export default function Carousel({
       },
     ],
   };
-  const movieDetailMatch = useMatch("/movies/:id");
+
   return (
     <div className="relative sm:top-[-150px] md:top-[-120px] lg:top-[-150px] xl:top-[-200px]">
       <h1 className="px-1 md:text-3xl sm:text-lg">{title}</h1>
@@ -72,7 +74,7 @@ export default function Carousel({
               className="border-none outline-none sm:p-2 md:p-5 lg:p-8 xl:p-8 2xl:p-14"
             >
               <motion.img
-                layoutId={`${item.id}`}
+                layoutId={item.id + ""}
                 onClick={() => handleItemClick(item.id)}
                 src={getImg(item.poster_path || item.backdrop_path)}
                 className="m-auto rounded-md cursor-pointer"
@@ -106,7 +108,16 @@ export default function Carousel({
               exit={{ opacity: 0 }}
               className="fixed opacity-0 top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.5)]"
             ></motion.div>
-            <MovieInfo match={movieDetailMatch} />
+            <MovieInfo
+              match={movieDetailMatch}
+              layoutId={movieDetailMatch.params.id!}
+            />
+            {/* <motion.div
+              className="fixed top-0 bottom-0 left-0 right-0 w-3/4 m-auto overflow-y-auto border-2 rounded-lg h-3/4 glass"
+              layoutId={movieDetailMatch.params.id}
+            >
+              a
+            </motion.div> */}
           </>
         )}
       </AnimatePresence>
@@ -114,7 +125,13 @@ export default function Carousel({
   );
 }
 
-const MovieInfo = ({ match }: { match: PathMatch<"id"> }) => {
+const MovieInfo = ({
+  match,
+  layoutId,
+}: {
+  match: PathMatch<"id">;
+  layoutId: string;
+}) => {
   const { data, isLoading, isError } = useQuery<IMovieInfo>({
     queryKey: ["movie", "info"],
     queryFn: () => getMovieInfo(Number(match.params.id)),
@@ -123,7 +140,7 @@ const MovieInfo = ({ match }: { match: PathMatch<"id"> }) => {
   if (isError) return <h1>Error...</h1>;
   return (
     <motion.div
-      layoutId={match?.params.id}
+      layoutId={layoutId}
       className="fixed top-0 bottom-0 left-0 right-0 w-3/4 m-auto overflow-y-auto border-2 rounded-lg h-3/4 glass"
     >
       <Link to={"/"}>
@@ -156,3 +173,6 @@ const MovieInfo = ({ match }: { match: PathMatch<"id"> }) => {
     </motion.div>
   );
 };
+// 캐러셀 아이템-모달 에니메이션 개선 (layoutId)
+// search
+// tv Show

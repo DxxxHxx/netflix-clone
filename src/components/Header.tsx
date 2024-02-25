@@ -11,7 +11,7 @@ import { useState } from "react";
 
 const headerVariants = {
   top: {
-    backgroundColor: "rgba(0,0,0,0)",
+    backgroundColor: "rgba(0,0,0,0.2)",
   },
   scroll: {
     backgroundColor: "rgba(0,0,0,1)",

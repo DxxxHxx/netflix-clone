@@ -1,6 +1,6 @@
-import { IMovie, getImg } from "../api";
+import { IMovie, ITv, getImg } from "../api";
 
-export default function Banner({ data }: { data: IMovie }) {
+export default function Banner({ data }: { data: IMovie|ITv }) {
   //   console.log(data);
   const bg_url = getImg(data.backdrop_path || data.poster_path);
   return (
